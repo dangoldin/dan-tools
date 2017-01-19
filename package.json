@@ -1,12 +1,12 @@
 {
-  "name": "electron-quick-start",
+  "name": "dan-tools",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Dan Tools",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/dangoldin/dan-tools",
   "keywords": [
     "Electron",
     "quick",
