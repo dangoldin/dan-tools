@@ -44,6 +44,8 @@ class TableEntry extends React.Component {
                 </p>
                 <p>
                     <textarea
+                        cols="60"
+                        rows="20"
                         value={this.props.tableText}
                         ref={(input) => this.tableTextInput = input}
                         onChange={this.handleChange}
@@ -158,8 +160,8 @@ class TableResult extends React.Component {
     }
 
     render() {
-        const rows = this.csvToArray(this.props.tableText, this.getDelimiter());
-        const html = this.getTableHTML(rows);
+        var rows = this.csvToArray(this.props.tableText, this.getDelimiter());
+        var html = this.getTableHTML(rows);
 
         return (
             <div>
@@ -178,7 +180,7 @@ class ConvertCSVtoBootstrapTable extends React.Component {
         this.state = {
             hasHeader: true,
             delimiterType: 'tab',
-            tableText: ''
+            tableText: ' '
         };
 
         this.handleUserInput = this.handleUserInput.bind(this);
