@@ -5,60 +5,224 @@ require('../less/main.less');
 import React from "react";
 import ReactDOM from 'react-dom';
 
-class Clock extends React.Component {
+class TableEntry extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {date: new Date(), clicks: 0};
-
-        this.incrementClick = this.incrementClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount() {
-        this.timerID = setInterval(
-            () => this.tick(),
-            1000
+    handleChange() {
+        this.props.onUserInput(
+            this.hasHeaderInput.checked,
+            this.delimiterTypeInput.value,
+            this.tableTextInput.value
+        );
+    }
+
+    render() {
+        return (
+            <form>
+                <p>
+                    <input
+                        type="checkbox"
+                        checked={this.props.hasHeader}
+                        ref={(input) => this.hasHeaderInput = input}
+                        onChange={this.handleChange}
+                    />
+                    {' '}
+                    Has header
+                </p>
+                <p>
+                    <select
+                        value={this.props.delimiterType}
+                        ref={(input) => this.delimiterTypeInput = input}
+                        onChange={this.handleChange}>
+                        <option value="tab">Tab</option>
+                        <option value="csv">CSV</option>
+                        <option value="space">Space</option>
+                    </select>
+                </p>
+                <p>
+                    <textarea
+                        value={this.props.tableText}
+                        ref={(input) => this.tableTextInput = input}
+                        onChange={this.handleChange}
+                    />
+                </p>
+            </form>
         )
+    };
+}
+
+class TableResult extends React.Component {
+    constructor(props) {
+        super(props);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
+    // From http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+    csvToArray(strData, strDelimiter) {
+        var objPattern = new RegExp(
+            (
+            // Delimiters.
+            "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+
+            // Quoted fields.
+            "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+
+            // Standard fields.
+            "([^\"\\" + strDelimiter + "\\r\\n]*))"
+            ),
+            "gi"
+            );
+
+        // Create an array to hold our data. Give the array
+        // a default empty first row.
+        var arrData = [[]];
+
+        // Create an array to hold our individual pattern
+        // matching groups.
+        var arrMatches = null;
+
+        // Keep looping over the regular expression matches
+        // until we can no longer find a match.
+        while (arrMatches = objPattern.exec( strData )){
+            // Get the delimiter that was found.
+            var strMatchedDelimiter = arrMatches[ 1 ];
+            // Check to see if the given delimiter has a length
+            // (is not the start of string) and if it matches
+            // field delimiter. If id does not, then we know
+            // that this delimiter is a row delimiter.
+            if (
+            strMatchedDelimiter.length &&
+            (strMatchedDelimiter != strDelimiter)
+            ){
+            // Since we have reached a new row of data,
+            // add an empty row to our data array.
+            arrData.push( [] );
+            }
+
+            // Now that we have our delimiter out of the way,
+            // let's check to see which kind of value we
+            // captured (quoted or unquoted).
+            if (arrMatches[ 2 ]){
+            // We found a quoted value. When we capture
+            // this value, unescape any double quotes.
+            var strMatchedValue = arrMatches[ 2 ].replace(
+                new RegExp( "\"\"", "g" ),
+                "\""
+                );
+            } else {
+            // We found a non-quoted value.
+            var strMatchedValue = arrMatches[ 3 ];
+            }
+
+            // Now that we have our value string, let's add
+            // it to the data array.
+            arrData[ arrData.length - 1 ].push( strMatchedValue );
+        }
+
+        // Return the parsed data.
+        return( arrData );
     }
 
-    tick() {
+    getDelimiter() {
+        return {
+            'space': ' ',
+            'tab': '\t',
+            'csv': ','
+        }[this.props.delimiterType];
+    }
+
+    getTableHTML(rows) {
+        var table = '<table class="table">';
+        var header = [];
+        var idx = 0;
+        if (this.props.hasHeader) {
+            header = rows[0];
+            idx = 1;
+        }
+
+        if (header.length) {
+            table += '<thead>';
+            table += header.map(function(x) { return '<th>' + x.toString() + '</th>';}).join('');
+            table += '</thead>';
+        }
+
+        table += '<tbody>';
+        table += rows.slice(idx).map(function(row) {
+                return row.map(function(x) {return '<td>' + x.toString() + '</td>';}).join('');
+            }).join('');
+        table += '</tbody></table>';
+
+        return table;
+    }
+
+    render() {
+        const rows = this.csvToArray(this.props.tableText, this.getDelimiter());
+        const html = this.getTableHTML(rows);
+
+        return (
+            <div>
+                <h2>Table Result</h2>
+                <p>
+                    {html}
+                </p>
+            </div>
+        )
+    };
+}
+
+class ConvertCSVtoBootstrapTable extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            hasHeader: true,
+            delimiterType: 'tab',
+            tableText: ''
+        };
+
+        this.handleUserInput = this.handleUserInput.bind(this);
+    }
+
+    handleUserInput(hasHeader, delimiterType, tableText) {
         this.setState({
-            date: new Date()
-        });
-    }
-
-    incrementClick() {
-        this.setState((prevState, props) => {
-            clicks: prevState.clicks += 1
+            hasHeader: hasHeader,
+            delimiterType: delimiterType,
+            tableText: tableText
         });
     }
 
     render() {
         return (
-            <div onClick={this.incrementClick}>
-            <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-            <h3>Clicks: {this.state.clicks}</h3>
+            <div>
+                <div style={{float: "left"}}>
+                    <TableEntry
+                        hasHeader={this.state.hasHeader}
+                        delimiterType={this.state.delimiterType}
+                        tableText={this.state.tableText}
+                        onUserInput={this.handleUserInput}
+                    />
+                </div>
+                <div style={{float: "right"}}>
+                    <TableResult
+                        tableText={this.state.tableText}
+                        delimiterType={this.state.delimiterType}
+                    />
+                </div>
             </div>
         );
-    }
-}
-
-function Welcome(props) {
-  return (
-      <div>
-        <h1>Welcome to {props.name}</h1>
-        <Clock />
-      </div>
-  );
+    };
 }
 
 function App() {
   return (
     <div>
-      <Welcome name="Dan's Tools" />
+      <div>
+        <h1>
+            Welcome to Dan's Tools
+        </h1>
+      </div>
+      <ConvertCSVtoBootstrapTable />
     </div>
   );
 }
