@@ -27,6 +27,6 @@
   "scripts": {
     "start": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron .",
     "watch": "./node_modules/.bin/webpack-dev-server",
-    "electron-rebuild": "./node_modules/.bin/electron-rebuild"
+    "package": "electron-packager ./ DansTools --all --out ~/Desktop/DansTools --version 0.1.0 --overwrite"
   }
 }
