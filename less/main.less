@@ -8,3 +8,9 @@ body {
 div.main {
   color: @main-fg;
 }
+
+// Deal with warning:
+// Electron Helper[27007:2145702] Couldn't set selectedTextBackgroundColor from default ()
+::selection {
+  background: rgb(166,204,255);
+}
