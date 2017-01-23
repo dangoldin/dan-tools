@@ -145,14 +145,14 @@ class TableResult extends React.Component {
         }
 
         if (header.length) {
-            table += '<thead>';
+            table += '<thead><tr>';
             table += header.map(function(x) { return '<th>' + x.toString() + '</th>';}).join('');
-            table += '</thead>';
+            table += '</tr></thead>';
         }
 
         table += '<tbody>';
         table += rows.slice(idx).map(function(row) {
-                return row.map(function(x) {return '<td>' + x.toString() + '</td>';}).join('');
+                return '<tr>' + row.map(function(x) {return '<td>' + x.toString() + '</td>';}).join('') + '</tr>';
             }).join('');
         table += '</tbody></table>';
 
@@ -208,6 +208,7 @@ class ConvertCSVtoBootstrapTable extends React.Component {
                 <div style={{float: "right"}}>
                     <TableResult
                         tableText={this.state.tableText}
+                        hasHeader={this.state.hasHeader}
                         delimiterType={this.state.delimiterType}
                     />
                 </div>
