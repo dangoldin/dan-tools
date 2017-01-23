@@ -160,8 +160,15 @@ class TableResult extends React.Component {
     }
 
     render() {
-        var rows = this.csvToArray(this.props.tableText, this.getDelimiter());
-        var html = this.getTableHTML(rows);
+        var rows = [];
+        var html = '';
+        try {
+            rows = this.csvToArray(this.props.tableText, this.getDelimiter());
+            html = this.getTableHTML(rows);
+        } catch (e) {
+            console.log("Failed to generate HTML table");
+            console.log(e);
+        }
 
         return (
             <div>
