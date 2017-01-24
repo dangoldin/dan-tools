@@ -9,19 +9,31 @@ class TableEntry extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange() {
         this.props.onUserInput(
             this.hasHeaderInput.checked,
             this.delimiterTypeInput.value,
-            this.tableTextInput.value
+            this.tableTextInput.value,
+            false
         );
+    }
+
+    handleSubmit(event) {
+        this.props.onUserInput(
+            this.hasHeaderInput.checked,
+            this.delimiterTypeInput.value,
+            this.tableTextInput.value,
+            true
+        );
+        event.preventDefault();
     }
 
     render() {
         return (
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 <p>
                     <input
                         type="checkbox"
@@ -51,6 +63,12 @@ class TableEntry extends React.Component {
                         onChange={this.handleChange}
                     />
                 </p>
+                <p>
+                    <input
+                        type="submit"
+                        value="Submit"
+                    />
+                </p>
             </form>
         )
     };
@@ -63,6 +81,10 @@ class TableResult extends React.Component {
 
     // From http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
     csvToArray(strData, strDelimiter) {
+        if (!strData.length) {
+            return [];
+        }
+
         var objPattern = new RegExp(
             (
             // Delimiters.
@@ -162,12 +184,14 @@ class TableResult extends React.Component {
     render() {
         var rows = [];
         var html = '';
-        try {
-            rows = this.csvToArray(this.props.tableText, this.getDelimiter());
-            html = this.getTableHTML(rows);
-        } catch (e) {
-            console.log("Failed to generate HTML table");
-            console.log(e);
+        if (this.props.tableText.length) {
+            try {
+                rows = this.csvToArray(this.props.tableText, this.getDelimiter());
+                html = this.getTableHTML(rows);
+            } catch (e) {
+                console.log("Failed to generate HTML table");
+                console.log(e);
+            }
         }
 
         return (
@@ -187,17 +211,19 @@ class ConvertCSVtoBootstrapTable extends React.Component {
         this.state = {
             hasHeader: true,
             delimiterType: 'tab',
-            tableText: ' '
+            tableText: '',
+            tableOutText: ''
         };
 
         this.handleUserInput = this.handleUserInput.bind(this);
     }
 
-    handleUserInput(hasHeader, delimiterType, tableText) {
+    handleUserInput(hasHeader, delimiterType, tableText, updateRight = false) {
         this.setState({
             hasHeader: hasHeader,
             delimiterType: delimiterType,
-            tableText: tableText
+            tableText: tableText,
+            tableOutText: updateRight ? tableText : ''
         });
     }
 
@@ -214,7 +240,7 @@ class ConvertCSVtoBootstrapTable extends React.Component {
                 </div>
                 <div style={{float: "right"}}>
                     <TableResult
-                        tableText={this.state.tableText}
+                        tableText={this.state.tableOutText}
                         hasHeader={this.state.hasHeader}
                         delimiterType={this.state.delimiterType}
                     />
