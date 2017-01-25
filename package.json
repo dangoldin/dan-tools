@@ -22,7 +22,8 @@
  "dependencies": {
     "electron": "^1.4.15",
     "react": "^15.4.2",
-    "react-dom": "15.4.2"
+    "react-dom": "15.4.2",
+    "ipc": "0.0.1"
   },
   "scripts": {
     "start": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron .",

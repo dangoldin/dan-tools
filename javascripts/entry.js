@@ -5,6 +5,13 @@ require('../less/main.less');
 import React from "react";
 import ReactDOM from 'react-dom';
 
+const {ipcRenderer} = require('electron')
+
+ipcRenderer.on('global-shortcut', (event, arg) => {
+    console.log(event)
+    console.log(arg)
+})
+
 class TableEntry extends React.Component {
     constructor(props) {
         super(props);
@@ -56,8 +63,6 @@ class TableEntry extends React.Component {
                 </p>
                 <p>
                     <textarea
-                        cols="60"
-                        rows="20"
                         value={this.props.tableText}
                         ref={(input) => this.tableTextInput = input}
                         onChange={this.handleChange}
@@ -196,7 +201,6 @@ class TableResult extends React.Component {
 
         return (
             <div>
-                <h2>Table Result</h2>
                 <p>
                     {html}
                 </p>
@@ -230,7 +234,7 @@ class ConvertCSVtoBootstrapTable extends React.Component {
     render() {
         return (
             <div>
-                <div style={{float: "left"}}>
+                <div className="left-sidebar">
                     <TableEntry
                         hasHeader={this.state.hasHeader}
                         delimiterType={this.state.delimiterType}
@@ -238,7 +242,7 @@ class ConvertCSVtoBootstrapTable extends React.Component {
                         onUserInput={this.handleUserInput}
                     />
                 </div>
-                <div style={{float: "right"}}>
+                <div className="right-sidebar">
                     <TableResult
                         tableText={this.state.tableOutText}
                         hasHeader={this.state.hasHeader}

@@ -1,6 +1,8 @@
 const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+const globalShortcut = electron.globalShortcut
+const ipcMain = electron.ipcMain
 
 let mainWindow
 
@@ -22,5 +24,10 @@ app.on('ready', function() {
   // mainWindow.openDevTools();
   mainWindow.on('closed', function() {
     mainWindow = null;
+  });
+
+  const ret = globalShortcut.register('CommandOrControl+X', () => {
+    console.log('CommandOrControl+X is pressed');
+    mainWindow.webContents.send('global-shortcut', 0);
   });
 });
