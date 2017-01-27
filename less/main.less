@@ -27,6 +27,42 @@ div.main {
   clear: both;
 }
 
+.nav ul {
+  list-style: none;
+  // background-color: #444;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.nav li {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1em;
+  line-height: 40px;
+  height: 40px;
+
+  width: 220px;
+  border-bottom: none;
+  height: 50px;
+  line-height: 50px;
+
+  display: inline-block;
+  margin-right: -4px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #111;
+  display: block;
+  transition: .3s background-color;
+}
+
+.nav a.active {
+  background-color: #111;
+  // color: #444;
+  cursor: default;
+}
+
 // Deal with warning:
 // Electron Helper[27007:2145702] Couldn't set selectedTextBackgroundColor from default ()
 ::selection {
