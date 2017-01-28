@@ -78,11 +78,55 @@ class AddPoint extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type="text" name="x" value={this.state.x} onChange={this.handleInputChange}/>
-        <input type="text" name="y" value={this.state.y} onChange={this.handleInputChange}/>
-        <input type="text" name="label" value={this.state.label} onChange={this.handleInputChange}/>
+        <input type="text" name="x" placeholder="x coordinate" value={this.state.x} onChange={this.handleInputChange}/>
+        <input type="text" name="y" placeholder="y coordinate" value={this.state.y} onChange={this.handleInputChange}/>
+        <input type="text" name="label" placeholder="the label" value={this.state.label} onChange={this.handleInputChange}/>
         <input type="submit" value="Add" />
       </form>
+    )
+  }
+}
+
+class Matrix extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      side: 300
+    }
+
+    this.convertCoordinate = this.convertCoordinate.bind(this)
+  }
+
+  // -10 to 10 => 0 to side
+  convertCoordinate(coord) {
+    const side = this.state.side
+    const half = side/2
+
+    return side/20 * coord + half
+  }
+
+  componentDidMount() {
+    this.updateCanvas();
+  }
+
+  componentDidUpdate() {
+    this.updateCanvas();
+  }
+
+  updateCanvas() {
+    const convertCoordinate = this.convertCoordinate;
+    const ctx = this.refs.canvas.getContext('2d');
+    ctx.clearRect(0, 0, this.state.side, this.state.side);
+    this.props.points.forEach(function(p) {
+      ctx.fillRect(convertCoordinate(p.x), convertCoordinate(-1 * p.y), 5, 5);
+      debugger;
+    })
+  }
+
+  render() {
+    return (
+      <canvas ref="canvas" width={this.state.side} height={this.state.side}/>
     )
   }
 }
@@ -122,11 +166,16 @@ class BCGMatrix extends React.Component {
   render() {
     return (
       <div>
-        <PointList
-          points={this.state.points}
-          deletePoint={idx => this.deletePoint(idx)}
-          />
-        <AddPoint addPoint={this.addPoint}/>
+        <div className="left-sidebar">
+          <PointList
+            points={this.state.points}
+            deletePoint={idx => this.deletePoint(idx)}
+            />
+          <AddPoint addPoint={this.addPoint}/>
+        </div>
+        <div className="right-sidebar">
+          <Matrix points={this.state.points}/>
+        </div>
       </div>
     )
   }

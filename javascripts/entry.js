@@ -12,10 +12,10 @@ import BCGMatrix from './bcg-matrix';
 
 const {ipcRenderer} = require('electron')
 
-ipcRenderer.on('global-shortcut', (event, arg) => {
-    console.log(event)
-    console.log(arg)
-})
+// ipcRenderer.on('global-shortcut', (event, arg) => {
+//     console.log(event)
+//     console.log(arg)
+// })
 
 class App extends React.Component {
     render() {

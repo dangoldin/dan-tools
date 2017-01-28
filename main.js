@@ -26,8 +26,8 @@ app.on('ready', function() {
     mainWindow = null;
   });
 
-  const ret = globalShortcut.register('CommandOrControl+X', () => {
-    console.log('CommandOrControl+X is pressed');
-    mainWindow.webContents.send('global-shortcut', 0);
-  });
+  // const ret = globalShortcut.register('CommandOrControl+X', () => {
+  //   console.log('CommandOrControl+X is pressed');
+  //   mainWindow.webContents.send('global-shortcut', 0);
+  // });
 });
