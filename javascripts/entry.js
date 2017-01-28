@@ -8,6 +8,7 @@ import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 
 import ConvertCSVtoBootstrapTable from './convert-csv-to-bootstrap-table';
 import BulkGeocoding from './bulk-geocoding';
+import BCGMatrix from './bcg-matrix';
 
 const {ipcRenderer} = require('electron')
 
@@ -29,7 +30,7 @@ class App extends React.Component {
                 <ul>
                     <li><Link to="/convert-csv">CSV to Bootstrap Table</Link></li>
                     <li><Link to="/bulk-geocode">Bulk Geocoding</Link></li>
-                    <li><a href="#">"BCG Style" Matrix</a></li>
+                    <li><Link to="/bcg-matrix">"BCG Style" Matrix</Link></li>
                     <li><a href="#">SQL Data Generation</a></li>
                     <li><a href="#">SQL Schema Comparison</a></li>
                     <li><a href="#">Date Generation</a></li>
@@ -47,6 +48,7 @@ ReactDOM.render(
             <IndexRoute component={ConvertCSVtoBootstrapTable} />
             <Route path="convert-csv" component={ConvertCSVtoBootstrapTable} />
             <Route path="bulk-geocode" component={BulkGeocoding} />
+            <Route path="bcg-matrix" component={BCGMatrix} />
         </Route>
     </Router>,
     document.getElementById('content')
