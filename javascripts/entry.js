@@ -28,9 +28,9 @@ class App extends React.Component {
             </div>
             <div className="nav">
                 <ul>
-                    <li><Link to="/convert-csv">CSV to Bootstrap Table</Link></li>
-                    <li><Link to="/bulk-geocode">Bulk Geocoding</Link></li>
-                    <li><Link to="/bcg-matrix">"BCG Style" Matrix</Link></li>
+                    <li><Link to="/convert-csv" activeClassName="active">CSV to Bootstrap Table</Link></li>
+                    <li><Link to="/bulk-geocode" activeClassName="active">Bulk Geocoding</Link></li>
+                    <li><Link to="/bcg-matrix" activeClassName="active">"BCG Style" Matrix</Link></li>
                     <li><a href="#">SQL Data Generation</a></li>
                     <li><a href="#">SQL Schema Comparison</a></li>
                     <li><a href="#">Date Generation</a></li>

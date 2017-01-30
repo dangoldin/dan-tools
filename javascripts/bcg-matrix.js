@@ -8,7 +8,9 @@ class PointRow extends React.Component {
 
     return (
       <li>
-        {point.x} {point.y} {point.label}
+        <span className="coord">{point.x}</span>
+        <span className="coord">{point.y}</span>
+        <span className="label">{point.label}</span>
         <button
           onClick={() => this.props.deletePoint(this.props.id)}>X</button>
       </li>
@@ -37,7 +39,7 @@ class PointList extends React.Component {
   render() {
     var Points = this.props.points.map(this.renderPointRow);
     return (
-      <ul>
+      <ul className="points">
         {Points}
       </ul>
     )
@@ -92,7 +94,7 @@ class Matrix extends React.Component {
     super(props)
 
     this.state = {
-      side: 300
+      side: 400
     }
 
     this.convertCoordinate = this.convertCoordinate.bind(this)
@@ -118,9 +120,12 @@ class Matrix extends React.Component {
     const convertCoordinate = this.convertCoordinate;
     const ctx = this.refs.canvas.getContext('2d');
     ctx.clearRect(0, 0, this.state.side, this.state.side);
+    ctx.fillRect(this.state.side/2, 0, 1, this.state.side)
+    ctx.fillRect(0, this.state.side/2, this.state.side, 1)
     this.props.points.forEach(function(p) {
       ctx.fillRect(convertCoordinate(p.x), convertCoordinate(-1 * p.y), 5, 5);
-      debugger;
+      ctx.font = '16px serif';
+      ctx.fillText(p.label, convertCoordinate(p.x) + 5, convertCoordinate(-1 * p.y) - 5, 80)
     })
   }
 
