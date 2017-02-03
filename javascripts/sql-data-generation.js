@@ -29,7 +29,28 @@ class TableDetail extends React.Component {
   }
 }
 
+class SQLStatements extends React.Component {
+  render() {
+    return (
+      <div></div>
+    )
+  }
+}
+
 class SQLDataGeneration extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      tableName: 'table_name',
+      fields: [
+        {name: 'fieldA', type: 'int'},
+        {name: 'fieldB', type: 'real'}
+      ],
+      count: 10
+    }
+  }
+
   render() {
     return (
       <div>
@@ -39,7 +60,11 @@ class SQLDataGeneration extends React.Component {
           <input type="submit" value="Generate" />
         </div>
         <div className="right-sidebar">
-          Output
+          <SQLStatements
+            tableName={this.state.tableName}
+            fields={this.state.fields}
+            count={this.count}
+            />
         </div>
       </div>
     )
