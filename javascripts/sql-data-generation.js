@@ -31,23 +31,39 @@ class TableDetail extends React.Component {
 }
 
 class FieldDetail extends React.Component {
+  handleChange() {
+    this.props.updateField(this.props.id, this.nameInput.value, this.typeInput.value)
+  }
+
   render() {
     return (
       <div>
-        <input type="text" placeholder="field name" />
-        <select>
+        <input
+          type="text"
+          placeholder="field name"
+          value={this.props.name}
+          ref={(input) => this.nameInput = input}
+          onChange={this.handleChange.bind(this)}
+          />
+        <select
+          value={this.props.type}
+          ref={(input) => this.typeInput = input}
+          onChange={this.handleChange.bind(this)}
+          >
           <option>Date</option>
           <option>Int</option>
           <option>Real</option>
           <option>String</option>
         </select>
+        <button
+          onClick={() => this.props.deleteField(this.props.id)}>X</button>
       </div>
     )
   }
 }
 
 class SQLStatements extends React.Component {
-  randomDate(start = new Date(now.getTime() - 10000000000), end = new Date()) {
+  randomDate(start = new Date((new Date()).getTime() - 10000000000), end = new Date()) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   }
 
@@ -81,10 +97,10 @@ class SQLStatements extends React.Component {
       // Generate the random vals
       const vals = this.props.fields.map(function(f) {
         switch (f.type) {
-          case 'int': return that.randomInt()
-          case 'real': return that.randomReal()
-          case 'date': return that.randomDate()
-          case 'string': return that.randomString()
+          case 'Int': return that.randomInt()
+          case 'Real': return that.randomReal()
+          case 'Date': return that.randomDate()
+          case 'String': return that.randomString()
         }
       }).map(function(val) { // Surround with quotes
         return "'" + val + "'"
@@ -113,14 +129,17 @@ class SQLDataGeneration extends React.Component {
     this.state = {
       tableName: 'table_name',
       fields: [
-        {name: 'fieldA', type: 'int'},
-        {name: 'fieldB', type: 'real'}
+        {name: 'fieldA', type: 'Int'},
+        {name: 'fieldB', type: 'Real'}
       ],
       count: 10
     }
 
     this.updateTableName = this.updateTableName.bind(this)
     this.updateCount = this.updateCount.bind(this)
+    this.updateField = this.updateField.bind(this)
+    this.deleteField = this.deleteField.bind(this)
+    this.newField = this.newField.bind(this)
   }
 
   updateTableName(tableName) {
@@ -131,7 +150,42 @@ class SQLDataGeneration extends React.Component {
     this.setState({count: parseInt(count, 10) || 0})
   }
 
+  updateField(idx, name, type) {
+    var fields = this.state.fields
+
+    fields[idx] = {
+      name: name,
+      type: type
+    }
+
+    this.setState({ fields: fields })
+  }
+
+  deleteField(idx) {
+    var fields = this.state.fields
+    fields.splice(idx, 1)
+    this.setState({ fields: fields })
+  }
+
+  newField() {
+    var fields = this.state.fields
+    fields.push({type: '', name: ''})
+    this.setState({ fields: fields })
+  }
+
   render() {
+    const that = this;
+
+    const FieldDetails = this.state.fields.map(function(f, idx) {
+      return <FieldDetail
+        name={f.name}
+        type={f.type}
+        key={idx}
+        id={idx}
+        updateField={that.updateField}
+        deleteField={that.deleteField}/>
+    })
+
     return (
       <div>
         <div className="left-sidebar">
@@ -141,8 +195,11 @@ class SQLDataGeneration extends React.Component {
             updateTableName={this.updateTableName}
             updateCount={this.updateCount}
             />
-          <FieldDetail />
-          <input type="submit" value="Generate" />
+          <div>
+            {FieldDetails}
+          </div>
+          <button
+          onClick={this.newField}>Add field</button>
         </div>
         <div className="right-sidebar">
           <SQLStatements
