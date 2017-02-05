@@ -12,6 +12,7 @@ class SQLEntry extends React.Component {
           className="small"
           value={this.props.sqlCode}
           onChange={this.props.changeFunction}
+          placeholder={this.props.placeholder}
           >
         </textarea>
       </div>
@@ -64,10 +65,10 @@ class SQLSchemaComparison extends React.Component {
     const secondJSON = this.tsvToJSON(this.state.second)
 
     return (
-      <div>
+      <div className="flex">
         <div className="left-sidebar">
-          <SQLEntry name='first' sqlCode={this.state.first} changeFunction={this.updateSQL}/>
-          <SQLEntry name='second' sqlCode={this.state.second} changeFunction={this.updateSQL}/>
+          <SQLEntry name='first' placeholder="first schema" sqlCode={this.state.first} changeFunction={this.updateSQL}/>
+          <SQLEntry name='second' placeholder="second scehma" sqlCode={this.state.second} changeFunction={this.updateSQL}/>
         </div>
         <div className="right-sidebar">
           <JsonDiffReact

@@ -12,6 +12,7 @@ class TableDetail extends React.Component {
     return (
       <div>
         <input
+          className="small"
           type="text"
           placeholder="table name"
           value={this.props.tableName}
@@ -19,6 +20,7 @@ class TableDetail extends React.Component {
           onChange={this.handleChange.bind(this)}
           />
         <input
+          className="small"
           type="text"
           placeholder="# of rows"
           value={this.props.count}
@@ -39,6 +41,7 @@ class FieldDetail extends React.Component {
     return (
       <div>
         <input
+          className="small"
           type="text"
           placeholder="field name"
           value={this.props.name}
@@ -46,6 +49,7 @@ class FieldDetail extends React.Component {
           onChange={this.handleChange.bind(this)}
           />
         <select
+          className="small"
           value={this.props.type}
           ref={(input) => this.typeInput = input}
           onChange={this.handleChange.bind(this)}
@@ -64,7 +68,11 @@ class FieldDetail extends React.Component {
 
 class SQLStatements extends React.Component {
   randomDate(start = new Date((new Date()).getTime() - 10000000000), end = new Date()) {
-    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    const d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+    const mm = d.getMonth() + 1
+    const dd = d.getDate()
+
+    return d.getFullYear() + '-' + mm + '-' + dd
   }
 
   randomInt(min = 1, max = 100) {
@@ -108,7 +116,7 @@ class SQLStatements extends React.Component {
 
       // Make sure the fields are complete
       if (fields.length > 0 && vals.length > 0 && !fields.some((v) => v === '' )) {
-        const statement = 'INSERT INTO ' + this.props.tableName + ' (' + fields.join(', ') + ') VALUES (' + vals.join(', ') + ') '
+        const statement = 'INSERT INTO ' + this.props.tableName + ' (' + fields.join(', ') + ') VALUES (' + vals.join(', ') + ');'
         Statements.push(
           <li key={i}>
             {statement}
@@ -118,7 +126,7 @@ class SQLStatements extends React.Component {
     }
 
     return (
-      <ul>
+      <ul style={{'list-style': 'none'}}>
         {Statements}
       </ul>
     )
@@ -187,7 +195,7 @@ class SQLDataGeneration extends React.Component {
     })
 
     return (
-      <div>
+      <div className="flex">
         <div className="left-sidebar">
           <TableDetail
             tableName={this.state.tableName}

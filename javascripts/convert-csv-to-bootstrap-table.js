@@ -223,7 +223,7 @@ class ConvertCSVtoBootstrapTable extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="flex">
                 <div className="left-sidebar">
                     <TableEntry
                         hasHeader={this.state.hasHeader}

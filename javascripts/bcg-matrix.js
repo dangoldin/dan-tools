@@ -80,8 +80,8 @@ class AddPoint extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type="text" name="x" placeholder="x coordinate" value={this.state.x} onChange={this.handleInputChange}/>
-        <input type="text" name="y" placeholder="y coordinate" value={this.state.y} onChange={this.handleInputChange}/>
+        <input className="small" type="text" name="x" placeholder="x coordinate" value={this.state.x} onChange={this.handleInputChange}/>
+        <input className="small" type="text" name="y" placeholder="y coordinate" value={this.state.y} onChange={this.handleInputChange}/>
         <input type="text" name="label" placeholder="the label" value={this.state.label} onChange={this.handleInputChange}/>
         <input type="submit" value="Add" />
       </form>
@@ -170,7 +170,7 @@ class BCGMatrix extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="flex">
         <div className="left-sidebar">
           <PointList
             points={this.state.points}

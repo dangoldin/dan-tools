@@ -1,32 +1,12 @@
 @body-bg: #fff;
-@main-fg: #111;
 
 body {
   background-color: @body-bg;
 }
 
-div.main {
-  color: @main-fg;
-}
-
-.left-sidebar {
-  padding-left: 100px;
-  width: 500px;
-  float: left;
-
-  textarea {
-    width: 340px;
-    height: 400px;
-
-    &.small {
-      height: 300px;
-    }
-  }
-}
-
-.right-sidebar {
-  margin-right: 500px;
-  width: 800px;
+.flex {
+  display: flex;
+  flex-direction: row;
 }
 
 .clear {
@@ -35,9 +15,9 @@ div.main {
 
 .nav ul {
   list-style: none;
-  // background-color: #444;
   text-align: center;
   padding: 0;
+  width: 220px;
   margin: 0;
 }
 
@@ -46,12 +26,11 @@ div.main {
   font-size: 1.1em;
   height: 40px;
 
-  width: 220px;
   border-bottom: none;
   height: 50px;
   line-height: 50px;
 
-  display: inline-block;
+  // display: inline-block;
   margin-right: -4px;
 }
 
@@ -66,6 +45,25 @@ div.main {
   background-color: #eee;
   color: #222;
   cursor: default;
+}
+
+.left-sidebar {
+  padding-left: 20px;
+  width: 380px;
+
+  textarea {
+    width: 340px;
+    height: 400px;
+
+    &.small {
+      height: 300px;
+    }
+  }
+}
+
+.right-sidebar {
+  padding-left: 20px;
+  width: 600px;
 }
 
 // Deal with warning:
@@ -90,7 +88,10 @@ ul.points {
   }
 }
 
-hr {
-  margin-top: 5px;
-  margin-bottom: 5px;
+input, select {
+  margin-right: 4px;
+
+  &.small {
+    width: 60px;
+  }
 }

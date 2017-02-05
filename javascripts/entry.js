@@ -25,21 +25,22 @@ class App extends React.Component {
             <div>
                 <div>
                     <h1>
-                        Welcome to Dan's Tools
+                        Dan's Tools
                     </h1>
                 </div>
-                <div className="nav">
-                    <ul>
-                        <li><Link to="/convert-csv" activeClassName="active">CSV to Bootstrap Table</Link></li>
-                        <li><Link to="/bulk-geocode" activeClassName="active">Bulk Geocoding</Link></li>
-                        <li><Link to="/bcg-matrix" activeClassName="active">"BCG Style" Matrix</Link></li>
-                        <li><Link to="/sql-data-generation" activeClassName="active">SQL Data Generation</Link></li>
-                        <li><Link to="/sql-schema-comparison" activeClassName="active">SQL Schema Comparison</Link></li>
-                        <li><a href="#">Date Generation</a></li>
-                    </ul>
+                <div className="flex">
+                    <div className="nav">
+                        <ul>
+                            <li><Link to="/convert-csv" activeClassName="active">CSV to Bootstrap Table</Link></li>
+                            <li><Link to="/bulk-geocode" activeClassName="active">Bulk Geocoding</Link></li>
+                            <li><Link to="/bcg-matrix" activeClassName="active">"BCG Style" Matrix</Link></li>
+                            <li><Link to="/sql-data-generation" activeClassName="active">SQL Data Generation</Link></li>
+                            <li><Link to="/sql-schema-comparison" activeClassName="active">SQL Schema Comparison</Link></li>
+                            <li><a href="#">Date Generation</a></li>
+                        </ul>
+                    </div>
+                    {this.props.children}
                 </div>
-                <hr/>
-                {this.props.children}
             </div>
         );
     }
