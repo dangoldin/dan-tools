@@ -106,12 +106,15 @@ class SQLStatements extends React.Component {
         return "'" + val + "'"
       })
 
-      const statement = 'INSERT INTO ' + this.props.tableName + ' (' + fields.join(', ') + ') VALUES (' + vals.join(', ') + ') '
-      Statements.push(
-        <li key={i}>
-          {statement}
-        </li>
-      )
+      // Make sure the fields are complete
+      if (fields.length > 0 && vals.length > 0 && !fields.some((v) => v === '' )) {
+        const statement = 'INSERT INTO ' + this.props.tableName + ' (' + fields.join(', ') + ') VALUES (' + vals.join(', ') + ') '
+        Statements.push(
+          <li key={i}>
+            {statement}
+          </li>
+        )
+      }
     }
 
     return (
@@ -128,10 +131,7 @@ class SQLDataGeneration extends React.Component {
 
     this.state = {
       tableName: 'table_name',
-      fields: [
-        {name: 'fieldA', type: 'Int'},
-        {name: 'fieldB', type: 'Real'}
-      ],
+      fields: [],
       count: 10
     }
 
