@@ -11,6 +11,7 @@ import BulkGeocoding from './bulk-geocoding'
 import BCGMatrix from './bcg-matrix'
 import SQLDataGeneration from './sql-data-generation'
 import SQLSchemaComparison from './sql-schema-comparison'
+import DateGeneration from './date-generation'
 
 const {ipcRenderer} = require('electron')
 
@@ -36,7 +37,7 @@ class App extends React.Component {
                             <li><Link to="/bcg-matrix" activeClassName="active">"BCG Style" Matrix</Link></li>
                             <li><Link to="/sql-data-generation" activeClassName="active">SQL Data Generation</Link></li>
                             <li><Link to="/sql-schema-comparison" activeClassName="active">SQL Schema Comparison</Link></li>
-                            <li><a href="#">Date Generation</a></li>
+                            <li><Link to="/date-generation">Date Generation</Link></li>
                         </ul>
                     </div>
                     {this.props.children}
@@ -55,6 +56,7 @@ ReactDOM.render(
             <Route path="bcg-matrix" component={BCGMatrix} />
             <Route path="sql-data-generation" component={SQLDataGeneration} />
             <Route path="sql-schema-comparison" component={SQLSchemaComparison} />
+            <Route path="date-generation" component={DateGeneration} />
         </Route>
     </Router>,
     document.getElementById('content')
