@@ -20,6 +20,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "dateformat": "^2.0.0",
     "electron": "^1.4.15",
     "ipc": "0.0.1",
     "jsondiffpatch-for-react": "^1.0.1",
