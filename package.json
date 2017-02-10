@@ -24,6 +24,7 @@
     "electron": "^1.4.15",
     "ipc": "0.0.1",
     "jsondiffpatch-for-react": "^1.0.1",
+    "load-google-maps-api": "0.0.2",
     "react": "^15.4.2",
     "react-dom": "15.4.2",
     "react-router": "^3.0.2"
