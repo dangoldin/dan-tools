@@ -36,6 +36,11 @@ class GeoCodeResults extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (this.props.addresses.join('') !== nextProps.addresses.join('')) ||
+      (Object.keys(this.state.geocodeAddresses).join('') !== Object.keys(this.nextState.geocodeAddresses).join(''))
+  }
+
   geocodeAddress() {
     const addrs = this.props.addresses
 
@@ -46,10 +51,6 @@ class GeoCodeResults extends React.Component {
         that.geocoder.geocode( { 'address': addr}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             var location = results[0].geometry.location;
-            // var rowHTML = '<tr><td>' + addr + '</td><td>' + location.lat() + '</td><td>' + location.lng() + '</td></tr>';
-            // $('').append(rowHTML);
-            console.log(location.lat())
-            console.log(location.lng())
 
             const geocodedAddresses = that.state.geocodedAddresses
             geocodedAddresses[addr] = {
@@ -77,17 +78,22 @@ class GeoCodeResults extends React.Component {
       const geocodedAddress = geocodedAddresses[key]
 
       return (
-        <li key={idx}>
-          {key} {geocodedAddress.lat} {geocodedAddress.lng}
-        </li>
+        <tr key={idx}>
+          <td>{key}</td><td>{geocodedAddress.lat}</td><td>{geocodedAddress.lng}</td>
+        </tr>
       )
     })
 
     return (
       <div>
-        <ul>
-          {Geocoded}
-        </ul>
+        <table>
+          <thead>
+            <tr><th>Address</th><th>Latitude</th><th>Longitude</th></tr>
+          </thead>
+          <tbody>
+            {Geocoded}
+          </tbody>
+        </table>
       </div>
     )
   }
