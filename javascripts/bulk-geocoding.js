@@ -37,8 +37,13 @@ class GeoCodeResults extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log(this.state)
+    console.log(nextState)
+    console.log(this.props)
+    console.log(nextProps)
     return (this.props.addresses.join('') !== nextProps.addresses.join('')) ||
-      (Object.keys(this.state.geocodeAddresses).join('') !== Object.keys(this.nextState.geocodeAddresses).join(''))
+      (Object.keys(this.state.geocodedAddresses).join('') !== Object.keys(nextState.geocodedAddresses).join(''))
+      // (Object.keys(nextState.geocodedAddresses).length != nextProps.addresses.length)
   }
 
   geocodeAddress() {
@@ -62,7 +67,7 @@ class GeoCodeResults extends React.Component {
             })
           } else {
             console.log("Error looking up address" + addr);
-            alert("Geocode was not successful for the following reason: " + status);
+            // alert("Geocode was not successful for the following reason: " + status);
           }
         });
       })();
@@ -84,18 +89,21 @@ class GeoCodeResults extends React.Component {
       )
     })
 
-    return (
-      <div>
-        <table>
-          <thead>
-            <tr><th>Address</th><th>Latitude</th><th>Longitude</th></tr>
-          </thead>
-          <tbody>
-            {Geocoded}
-          </tbody>
-        </table>
-      </div>
-    )
+    if (Geocoded.length) {
+      return (
+        <div>
+          <table>
+            <thead>
+              <tr><th>Address</th><th>Latitude</th><th>Longitude</th></tr>
+            </thead>
+            <tbody>
+              {Geocoded}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+    return (<div></div>)
   }
 }
 
