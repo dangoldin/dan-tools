@@ -24,8 +24,8 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <div>
-                    <h1>
+                <div className="flex">
+                    <h1 className="title">
                         Dan's Tools
                     </h1>
                 </div>
@@ -37,7 +37,7 @@ class App extends React.Component {
                             <li><Link to="/bcg-matrix" activeClassName="active">"BCG Style" Matrix</Link></li>
                             <li><Link to="/sql-data-generation" activeClassName="active">SQL Data Generation</Link></li>
                             <li><Link to="/sql-schema-comparison" activeClassName="active">SQL Schema Comparison</Link></li>
-                            <li><Link to="/date-generation">Date Generation</Link></li>
+                            <li><Link to="/date-generation" activeClassName="active">Date Generation</Link></li>
                         </ul>
                     </div>
                     {this.props.children}
