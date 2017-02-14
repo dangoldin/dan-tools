@@ -80,9 +80,9 @@ class DateResults extends React.Component {
     }
 
     return (
-      <div>
+      <ul className="points">
         {DateRows}
-      </div>
+      </ul>
     )
   }
 }
