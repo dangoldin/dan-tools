@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "dateformat": "^2.0.0",
-    "electron": "^1.4.15",
+    "electron": "^9.1.0",
     "ipc": "0.0.1",
     "jsondiffpatch-for-react": "^1.0.1",
     "load-google-maps-api": "0.0.2",
